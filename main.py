@@ -1,9 +1,17 @@
 from datetime import datetime
-from sys import argv
 import platform
 import psutil
 
-NAME= argv[0]
+import tkinter as tk
+from tkinter import ttk
+
+import matplotlib
+from matplotlib import style
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
+from matplotlib.figure import Figure
+matplotlib.use("TkAgg")
+
+LARGE_FONT=("Verdana", 12)
 
 def get_size(bytes, suffix="B"):
     """
@@ -17,6 +25,7 @@ def get_size(bytes, suffix="B"):
         if bytes < factor:
             return f"{bytes:.2f}{unit}{suffix}"
         bytes /= factor
+
 
 def system_info():
     uname = platform.uname()
@@ -38,6 +47,7 @@ def system_info():
     bootTimeTstmp = psutil.boot_time()
     bt = datetime.fromtimestamp(bootTimeTstmp)
     print(f"Boot Time: {bt.year}/{bt.month}/{bt.day} {bt.hour}:{bt.minute}:{bt.second}")
+
 
 def cpu_info():
     # let's print CPU information
@@ -67,6 +77,7 @@ def cpu_info():
         print(f"Core {i}: {cores[i]}%")
     print(f"Total CPU Usage: {totalCpu}%")
 
+
 def memory_info():
     # Memory Information
     print("=" * 40, "Memory Information", "=" * 40)
@@ -93,6 +104,7 @@ def memory_info():
     print(f"Free: {freeSwap}")
     print(f"Used: {usedSwap}")
     print(f"Percentage: {percentageSwap}%")
+
 
 def disk_info():
     # Disk Information
@@ -130,6 +142,7 @@ def disk_info():
     print(f"Total read: {totalReadDisk}")
     print(f"Total write: {totalWriteDisk}")
 
+
 def network_info():
     # Network information
     print("=" * 40, "Network Information", "=" * 40)
@@ -142,8 +155,81 @@ def network_info():
     print(f"Total Bytes Received: {totalBytesR}")
 
 
+def loadPlots():
+    print("Loading plots")
+
+
+def savePlot():
+    print("Saving plots");
+
+
+class GuiResourceMonitor(tk.Tk):
+    def __init__(self):
+
+        tk.Tk.__init__(self)
+        container = tk.Frame(self)
+
+        container.pack(side="top", fill="both", expand=True)
+
+        container.grid_rowconfigure(0, weight=1)
+        container.grid_columnconfigure(0, weight=1)
+
+        self.frames = {}
+
+        for F in (StartPage, PageOne):
+
+            frame = F(container, self)
+
+            self.frames[F] = frame
+
+            frame.grid(row=0, column=0, sticky="nsew")
+
+        self.show_frame(StartPage)
+
+    def show_frame(self, cont):
+        frame = self.frames[cont]
+        frame.tkraise()
+
+
+class StartPage(tk.Frame):
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self,parent)
+        label = ttk.Label(self, text="Start Page", font=LARGE_FONT)
+        label.pack(pady=10, padx=10)
+
+        button1 = ttk.Button(self, text="Start",
+                            command=lambda: controller.show_frame(PageOne))
+        button1.pack()
+
+
+class PageOne(tk.Frame):
+    def __init__(self,parent,controller):
+        tk.Frame.__init__(self,parent)
+        label = ttk.Label(self, text="Resource Page", font=LARGE_FONT)
+        label.pack(pady=10, padx=10)
+
+        button2 = ttk.Button(self, text="Exit",
+                            command=lambda: controller.show_frame(StartPage))
+        button2.pack()
+
+        f = Figure(figsize=(5,5), dpi=100)
+        a = f.add_subplot(111)
+        x = [1,2,3,4,5,6,7,8]
+        y = [5,6,1,3,8,9,3,6]
+        a.plot(x,y)
+
+        canvas = FigureCanvasTkAgg(f, self)
+        canvas.draw()
+        canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand= True)
+
+
+
+
 system_info()
 cpu_info()
 memory_info()
 disk_info()
 network_info()
+
+app = GuiResourceMonitor()
+app.mainloop()
