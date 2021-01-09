@@ -1,17 +1,25 @@
-from datetime import datetime
 import platform
 import psutil
+import datetime
+import time
+from datetime import date,datetime
 
 import tkinter as tk
 from tkinter import ttk
 
 import matplotlib
-from matplotlib import style
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
 from matplotlib.figure import Figure
+import matplotlib.animation as animation
+from matplotlib import style
 matplotlib.use("TkAgg")
 
 LARGE_FONT=("Verdana", 12)
+style.use("fivethirtyeight")
+
+
+inc = 0
+
 
 def get_size(bytes, suffix="B"):
     """
@@ -49,62 +57,58 @@ def system_info():
     print(f"Boot Time: {bt.year}/{bt.month}/{bt.day} {bt.hour}:{bt.minute}:{bt.second}")
 
 
-def cpu_info():
-    # let's print CPU information
-    print("=" * 40, "CPU Info", "=" * 40)
+def clean_cache():
+    fileCPU = open("SampleDataCPU.txt", "w")
+    fileMem = open("SampleDataMemory.txt", "w")
+    fileSwap = open("SampleDataSwap.txt", "w")
+    fileNet = open("SampleDataNetwork.txt", "w")
 
+
+def cpu_info():
+    # prepare the file with the data
+    f = open("SampleDataCPU.txt", "a")
     # number of cores
     cpuCountP = psutil.cpu_count(logical=False) #Physical number of cores
     cpuCountT = psutil.cpu_count(logical=True) #Total number of cores
-    print("Physical cores:", cpuCountP)
-    print("Total cores:", cpuCountT)
 
     # CPU frequencies
     cpufreq = psutil.cpu_freq()
     freqMax = cpufreq.max
     freqMin = cpufreq.min
     freqCurr = cpufreq.current
-    print(f"Max Frequency: {freqMax}Mhz")
-    print(f"Min Frequency: {freqMin}Mhz")
-    print(f"Current Frequency: {freqCurr}Mhz")
 
     # CPU usage
     print("CPU Usage Per Core:")
     cores = {}
+    i = inc + 1
     totalCpu = psutil.cpu_percent()
-    for i, percentage in enumerate(psutil.cpu_percent(percpu=True, interval=1)):
-        cores[i] = percentage
-        print(f"Core {i}: {cores[i]}%")
-    print(f"Total CPU Usage: {totalCpu}%")
+    f.write(str(i)+","+str(int(totalCpu))+"\n")
+    # for i, percentage in enumerate(psutil.cpu_percent(percpu=True, interval=1)):
+    #     cores[i] = percentage
+    #     print(f"Core {i}: {cores[i]}%")
 
 
 def memory_info():
-    # Memory Information
-    print("=" * 40, "Memory Information", "=" * 40)
-
+    # prepare the file with the data
+    fileMem = open("SampleDataMemory.txt", "a")
+    i = inc + 1
     # get the memory details
     svmem = psutil.virtual_memory()
     totalMem = get_size(svmem.total)
     availableMem = get_size(svmem.available)
     usedMem = get_size(svmem.used)
     percentageMem = svmem.percent
-    print(f"Total: {totalMem}")
-    print(f"Available: {availableMem}")
-    print(f"Used: {usedMem}")
-    print(f"Percentage: {percentageMem}%")
-    print("=" * 20, "SWAP", "=" * 20)
+    fileMem.write(str(i) + "," + str(percentageMem) + "\n")
 
+    # prepare the file with the data
+    fileSwap = open("SampleDataSwap.txt", "a")
     # get the swap memory details (if exists)
     swap = psutil.swap_memory()
     totalSwap = get_size(swap.total)
     freeSwap = get_size(swap.free)
     usedSwap = get_size(swap.used)
     percentageSwap = swap.percent
-    print(f"Total: {totalSwap}")
-    print(f"Free: {freeSwap}")
-    print(f"Used: {usedSwap}")
-    print(f"Percentage: {percentageSwap}%")
-
+    fileSwap.write(str(i) + "," + str(percentageSwap) + "\n")
 
 def disk_info():
     # Disk Information
@@ -144,26 +148,37 @@ def disk_info():
 
 
 def network_info():
-    # Network information
-    print("=" * 40, "Network Information", "=" * 40)
+    # prepare the file with the data
+    fileMem = open("SampleDataNetwork.txt", "a")
+    i = inc + 1
 
     # get IO statistics since boot
     net_io = psutil.net_io_counters()
     totalBytesS = get_size(net_io.bytes_sent)
     totalBytesR = get_size(net_io.bytes_recv)
-    print(f"Total Bytes Sent: {totalBytesS}")
-    print(f"Total Bytes Received: {totalBytesR}")
+    fileMem.write(str(i)+","+str(totalBytesS) + "," + str(totalBytesR) + "\n")
 
 
-def loadPlots():
-    print("Loading plots")
+f = Figure(figsize=(5, 5), dpi=100)
+a = f.add_subplot(111)
 
 
-def savePlot():
-    print("Saving plots");
+def animate(i):
+    pullData = open("SampleDataCPU.txt", "r").read()
+    dataList = pullData.split('\n')
+    xList = []
+    yList = []
+    for eachLine in dataList:
+        if len(eachLine) > 1:
+            x, y = eachLine.split(',')
+            xList.append(x)
+            yList.append(y)
+    a.clear()
+    a.plot(xList, yList)
 
 
 class GuiResourceMonitor(tk.Tk):
+
     def __init__(self):
 
         tk.Tk.__init__(self)
@@ -201,6 +216,17 @@ class StartPage(tk.Frame):
                             command=lambda: controller.show_frame(PageOne))
         button1.pack()
 
+start = datetime.now()
+
+def history():
+    end = datetime.now()
+    # try to open the history file if not create it
+    f = open("history.txt","a")
+    print(start)
+    print(end)
+    #append the data from the start and the end of the execution
+    f.write("---------"+ str(start) +"---------\n")
+    f.write("---------" + str(end) + "---------\n")
 
 class PageOne(tk.Frame):
     def __init__(self,parent,controller):
@@ -209,27 +235,35 @@ class PageOne(tk.Frame):
         label.pack(pady=10, padx=10)
 
         button2 = ttk.Button(self, text="Exit",
-                            command=lambda: controller.show_frame(StartPage))
+                            command=lambda: history())
         button2.pack()
 
-        f = Figure(figsize=(5,5), dpi=100)
-        a = f.add_subplot(111)
-        x = [1,2,3,4,5,6,7,8]
-        y = [5,6,1,3,8,9,3,6]
-        a.plot(x,y)
 
         canvas = FigureCanvasTkAgg(f, self)
         canvas.draw()
         canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand= True)
 
+        toolbar = NavigationToolbar2Tk(canvas, self)
+        toolbar.update()
+        canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
 
 
-
+clean_cache()
 system_info()
 cpu_info()
 memory_info()
 disk_info()
 network_info()
 
+# while(True):
+#     time.sleep(0.9)
+#     inc += 1
+#     cpu_info()
+#     memory_info()
+#     network_info()
+
 app = GuiResourceMonitor()
+ani = animation.FuncAnimation(f, animate, interval=1000)
 app.mainloop()
+
+
