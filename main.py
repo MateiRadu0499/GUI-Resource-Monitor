@@ -22,14 +22,24 @@ style.use("dark_background")
 
 
 TURN = 0
-
 def increment():
+    """
+    Function that is basically incrementing
+    the clock (TURN in our case) that says
+    how many seconds have passed since the
+    launch of the app
+    :return:
+    """
     global TURN
     TURN = TURN+1
+
 
 def get_size(bytes, suffix="B"):
     """
     Scale bytes to its proper format
+    Keyword arguments:
+        bytes -- bytes that we want to convert to Kb,Mb,Gb,Tb,Pb
+        suffix -- what to add at the end of conversion not just K,M,G,T,P (default B)
     e.g:
         1253656 => '1.20MB'
         1253656678 => '1.17GB'
@@ -42,6 +52,10 @@ def get_size(bytes, suffix="B"):
 
 
 def system_info():
+    """
+    Function that gathers the information about the current system
+    :return:
+    """
     uname = platform.uname()
     systemN = uname.system
     nodeN = uname.node
@@ -55,6 +69,11 @@ def system_info():
 
 
 def clean_cache():
+    """
+    Function called everytime we start the app to clear
+    the contents of every SampleData file
+    :return:
+    """
     fileCPU = open("SampleDataCPU.txt", "w")
     fileMem = open("SampleDataMemory.txt", "w")
     fileSwap = open("SampleDataSwap.txt", "w")
@@ -64,6 +83,11 @@ def clean_cache():
 cores_init={}
 core_percentage_init = psutil.cpu_percent()
 def cpu_info():
+    """
+        Function that gathers the info about the cpu
+        and storing the percentage in the SampleData
+        :return:
+    """
     # prepare the file with the data
     f = open("SampleDataCPU.txt", "a")
     # number of cores
@@ -94,6 +118,12 @@ def cpu_info():
 mem_init = psutil.virtual_memory()
 swap_init = psutil.swap_memory()
 def memory_info():
+    """
+        Function that gathers the info about the memory usage
+        and swapt memory usage
+        Storing it in the SampleData
+        :return:
+    """
     # prepare the file with the data
     fileMem = open("SampleDataMemory.txt", "a")
     i = TURN + 1
@@ -115,8 +145,14 @@ def memory_info():
     percentageSwap = swap.percent
     fileSwap.write(str(i) + "," + str(percentageSwap) + "\n")
 
+
 partitions_init = psutil.disk_partitions()
 def disk_info():
+    """
+        Function that gathers the info about the disk usage
+        of every partition in the system
+        :return:
+    """
     # get all disk partitions
     partitions = psutil.disk_partitions()
     for partition in partitions:
@@ -139,8 +175,14 @@ def disk_info():
     totalReadDisk = get_size(disk_io.read_bytes)
     totalWriteDisk = get_size(disk_io.write_bytes)
 
+
 net_io_init = psutil.net_io_counters()
 def network_info():
+    """
+    Function that gathers the info about the network usage
+    and storing it in the SampleData
+    :return:
+    """
     # prepare the file with the data
     fileMem = open("SampleDataNetwork.txt", "a")
     i = TURN + 1
@@ -169,6 +211,18 @@ netPlotR = f.add_subplot(gs[-1, -2])
 
 
 def animate(i):
+    """
+    Function that function as the frames for the plots
+    so that they are live data
+    The function reads for every plot from the specified
+    file and everytime this function is called the functions
+    specific to adding data in the files are called, we also
+    increment the seconds that have passed since the launch of the app
+    with increment()
+    Keyword arguments:
+    i -- variable used by the FuncAnimation
+    :return:
+    """
     increment()
     cpu_info()
     memory_info()
@@ -229,6 +283,7 @@ def animate(i):
     netPlotR.plot(xListNet, yListNetR)
     netPlotS.plot(xListNet, yListNetS)
 
+    #Setting the name of every plot and the axes of every plot
     cpuPlot.set_title('CPU Percentage')
     cpuPlot.set_xlabel('Time(s)')
     cpuPlot.set_ylabel('Usage(%)')
@@ -246,8 +301,14 @@ def animate(i):
     netPlotR.set_ylabel('Size received(Mb)')
 
 
-
 def history(controller):
+    """
+    Writes a file(or if it exists in the file)
+    with data of the system that was at the start of the application
+    and when the user presses the button "Save data & exit"
+    :param controller: used for returning the user to the StartPage
+    :return:
+    """
     end = datetime.now()
     ani.event_source.stop()
     # try to open the history file if not create it
@@ -441,6 +502,24 @@ def history(controller):
     controller.show_frame(StartPage)
 
 
+start = datetime.now()
+
+
+def stop_animation():
+    """
+    Stops the current plot animation that is running
+    """
+    ani.event_source.stop()
+
+
+def restart_program():
+    """
+    Restarts the current program.
+    """
+    python = sys.executable
+    os.execl(python, python, * sys.argv)
+
+
 class GuiResourceMonitor(tk.Tk):
     def __init__(self):
 
@@ -469,17 +548,13 @@ class GuiResourceMonitor(tk.Tk):
         frame.tkraise()
 
 
-def start_app(controller):
-    controller.show_frame(PageOne)
-
-
 class StartPage(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
         label = ttk.Label(self, text="Resource Monitor", font=LARGE_FONT)
         label.pack(pady=10, padx=10)
 
-        button1 = ttk.Button(self, text="See the live data", command=lambda: start_app(controller))
+        button1 = ttk.Button(self, text="See the live data", command=lambda: controller.show_frame(PageOne))
         button1.pack(side=tk.BOTTOM,padx=20,pady=20)
         # -----------------System-----------------
         uname = platform.uname()
@@ -553,24 +628,8 @@ class StartPage(tk.Frame):
         # render = ImageTk.PhotoImage(load)
         # img = tk.Label(self, image=render)
         # img.image = render
-        # img.place(x=0, y=0)
+        # img.pack()
 
-
-start = datetime.now()
-
-
-def stop_animation():
-    """
-    Stops the current plot animation that is running
-    :return:
-    """
-    ani.event_source.stop()
-
-def restart_program():
-    """Restarts the current program.
-    """
-    python = sys.executable
-    os.execl(python, python, * sys.argv)
 
 class PageOne(tk.Frame):
     def __init__(self, parent, controller):
@@ -594,5 +653,5 @@ class PageOne(tk.Frame):
 
 
 app = GuiResourceMonitor()
-ani = animation.FuncAnimation(f, animate, interval=1000)
+ani = animation.FuncAnimation(f, animate, interval=900)
 app.mainloop()
