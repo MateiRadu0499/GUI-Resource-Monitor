@@ -480,7 +480,7 @@ class StartPage(tk.Frame):
         label.pack(pady=10, padx=10)
 
         button1 = ttk.Button(self, text="See the live data", command=lambda: start_app(controller))
-        button1.pack()
+        button1.pack(side=tk.BOTTOM,padx=20,pady=20)
         # -----------------System-----------------
         uname = platform.uname()
         bootTimeTstmp = psutil.boot_time()
@@ -579,10 +579,10 @@ class PageOne(tk.Frame):
         label.pack(pady=10, padx=10)
 
         button2 = ttk.Button(self, text="Save data & Exit", command=lambda: history(controller))
-        button2.pack()
+        button2.pack(side=tk.BOTTOM,padx=10,pady=10, anchor=tk.S)
 
         button3 = ttk.Button(self, text="Stop running", command=lambda: stop_animation())
-        button3.pack()
+        button3.pack(side=tk.TOP,padx=10,pady=10, anchor=tk.S)
 
         canvas = FigureCanvasTkAgg(f, self)
         canvas.draw()
