@@ -3,7 +3,7 @@ import psutil
 import datetime
 import time
 from datetime import date,datetime
-
+import matplotlib.pyplot as plt
 import tkinter as tk
 from tkinter import ttk
 
@@ -15,7 +15,7 @@ from matplotlib import style
 matplotlib.use("TkAgg")
 
 LARGE_FONT=("Verdana", 12)
-style.use("fivethirtyeight")
+style.use("dark_background")
 
 
 TURN = 0
@@ -64,26 +64,26 @@ def cpu_info():
     # prepare the file with the data
     f = open("SampleDataCPU.txt", "a")
     # number of cores
-    cpuCountP = psutil.cpu_count(logical=False) #Physical number of cores
-    cpuCountT = psutil.cpu_count(logical=True) #Total number of cores
+    # cpuCountP = psutil.cpu_count(logical=False) #Physical number of cores
+    # cpuCountT = psutil.cpu_count(logical=True) #Total number of cores
 
     # CPU frequencies
-    cpufreq = psutil.cpu_freq()
-    freqMax = cpufreq.max
-    freqMin = cpufreq.min
-    freqCurr = cpufreq.current
+    # cpufreq = psutil.cpu_freq()
+    # freqMax = cpufreq.max
+    # freqMin = cpufreq.min
+    # freqCurr = cpufreq.current
 
     # CPU usage
-    print("CPU Usage Per Core:")
+    # print("CPU Usage Per Core:")
     cores = {}
     i = TURN + 1
     totalCpup= psutil.cpu_percent()
     f.write(str(i)+","+str(totalCpup)+"\n")
     if TURN == 0:
         cores_init = cores
-    for j, percentage in enumerate(psutil.cpu_percent(percpu=True, interval=1)):
-        cores[j] = percentage
-        print(f"Core {j}: {cores[j]}%")
+    # for j, percentage in enumerate(psutil.cpu_percent(percpu=True, interval=1)):
+        # cores[j] = percentage
+        # print(f"Core {j}: {cores[j]}%")
 
 
 mem_init = psutil.virtual_memory()
@@ -94,9 +94,9 @@ def memory_info():
     i = TURN + 1
     # get the memory details
     svmem = psutil.virtual_memory()
-    totalMem = get_size(svmem.total)
-    availableMem = get_size(svmem.available)
-    usedMem = get_size(svmem.used)
+    # totalMem = get_size(svmem.total)
+    # availableMem = get_size(svmem.available)
+    # usedMem = get_size(svmem.used)
     percentageMem = svmem.percent
     fileMem.write(str(i) + "," + str(percentageMem) + "\n")
 
@@ -104,9 +104,9 @@ def memory_info():
     fileSwap = open("SampleDataSwap.txt", "a")
     # get the swap memory details (if exists)
     swap = psutil.swap_memory()
-    totalSwap = get_size(swap.total)
-    freeSwap = get_size(swap.free)
-    usedSwap = get_size(swap.used)
+    # totalSwap = get_size(swap.total)
+    # freeSwap = get_size(swap.free)
+    # usedSwap = get_size(swap.used)
     percentageSwap = swap.percent
     fileSwap.write(str(i) + "," + str(percentageSwap) + "\n")
 
@@ -140,7 +140,7 @@ def network_info():
     fileMem = open("SampleDataNetwork.txt", "a")
     i = TURN + 1
 
-    # get IO statistics sTURNe boot
+    # get IO statistics since boot
     net_io = psutil.net_io_counters()
     totalBytesS = get_size(net_io.bytes_sent)
     totalBytesR = get_size(net_io.bytes_recv)
@@ -154,8 +154,17 @@ disk_info()
 network_info()
 
 
-f = Figure(figsize=(5, 5), dpi=100)
-a = f.add_subplot(111)
+f = plt.figure(constrained_layout = True)
+gs = f.add_gridspec(3,3)
+cpuPlot = f.add_subplot(gs[0, :])
+memPlot = f.add_subplot(gs[1, :-1])
+swapPlot = f.add_subplot(gs[-1, 0])
+netPlotS = f.add_subplot(gs[1:, -1])
+netPlotR = f.add_subplot(gs[-1, -2])
+
+
+
+
 
 
 def animate(i):
@@ -163,17 +172,77 @@ def animate(i):
     cpu_info()
     memory_info()
     network_info()
-    pullData = open("SampleDataCPU.txt", "r").read()
-    dataList = pullData.split('\n')
-    xList = []
-    yList = []
-    for eachLine in dataList:
+
+    pullDataCPU = open("SampleDataCPU.txt", "r").read()
+    dataListCPU = pullDataCPU.split('\n')
+    xListCPU = []
+    yListCPU = []
+    for eachLine in dataListCPU:
         if len(eachLine) > 1:
-            x, y = eachLine.split(',')
-            xList.append(int(x))
-            yList.append(float(y))
-    a.clear()
-    a.plot(xList, yList)
+            xcpu, ycpu = eachLine.split(',')
+            xListCPU.append(int(xcpu))
+            yListCPU.append(float(ycpu))
+    cpuPlot.clear()
+    cpuPlot.plot(xListCPU, yListCPU)
+
+
+    pullDataMem = open("SampleDataMemory.txt", "r").read()
+    dataListMem = pullDataMem.split('\n')
+    xListMem = []
+    yListMem = []
+    for eachLine in dataListMem:
+        if len(eachLine) > 1:
+            xmem, ymem = eachLine.split(',')
+            xListMem.append(int(xmem))
+            yListMem.append(float(ymem))
+    memPlot.clear()
+    memPlot.plot(xListMem,yListMem)
+
+    pullDataSwap = open("SampleDataSwap.txt", "r").read()
+    dataListSwap = pullDataSwap.split('\n')
+    xListSwap = []
+    yListSwap = []
+    for eachLine in dataListSwap:
+        if len(eachLine) > 1:
+            xswap, yswap = eachLine.split(',')
+            xListSwap.append(int(xswap))
+            yListSwap.append(float(yswap))
+    swapPlot.clear()
+    swapPlot.plot(xListSwap,yListSwap)
+
+
+    pullDataNet = open("SampleDataNetwork.txt", "r").read()
+    dataListNet = pullDataNet.split('\n')
+    xListNet = []
+    yListNetS = []
+    yListNetR = []
+    for eachLine in dataListNet:
+        if len(eachLine) > 1:
+            xnet, ynets, ynetr= eachLine.split(',')
+            xListNet.append(int(xnet))
+            yListNetS.append(ynets[:len(ynets)-2])
+            yListNetR.append(ynetr[:len(ynetr)-2])
+
+    netPlotR.clear()
+    netPlotS.clear()
+    netPlotR.plot(xListNet, yListNetR)
+    netPlotS.plot(xListNet, yListNetS)
+
+    cpuPlot.set_title('CPU Percentage')
+    cpuPlot.set_xlabel('Time(s)')
+    cpuPlot.set_ylabel('Usage(%)')
+    memPlot.set_title('Memory Percentage')
+    memPlot.set_xlabel('Time(s)')
+    memPlot.set_ylabel('Usage(%)')
+    swapPlot.set_title('Swap Mem Usage')
+    swapPlot.set_xlabel('Time(s)')
+    swapPlot.set_ylabel('Usage(%)')
+    netPlotS.set_title('Network Received')
+    netPlotS.set_xlabel('Time(s)')
+    netPlotS.set_ylabel('Size sent(Gb)')
+    netPlotR.set_title('Network Sent')
+    netPlotR.set_xlabel('Time(s)')
+    netPlotR.set_ylabel('Size received(Mb)')
 
 
 class GuiResourceMonitor(tk.Tk):
@@ -206,20 +275,12 @@ class GuiResourceMonitor(tk.Tk):
 
 class StartPage(tk.Frame):
     def __init__(self, parent, controller):
-        tk.Frame.__init__(self,parent)
-        label = ttk.Label(self, text="Start Page", font=LARGE_FONT)
+        tk.Frame.__init__(self, parent)
+        label = ttk.Label(self, text="Resource Monitor", font=LARGE_FONT)
         label.pack(pady=10, padx=10)
 
         button1 = ttk.Button(self, text="Start", command=lambda: controller.show_frame(PageOne))
         button1.pack()
-
-
-def write_start():
-    print("The start")
-
-
-def write_final():
-    print("The end")
 
 
 start = datetime.now()
