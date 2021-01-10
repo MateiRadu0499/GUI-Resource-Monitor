@@ -700,3 +700,120 @@ Total bytes received: 13.83GB
 ######################################################################################################
 
 
+---------System Info---------
+System:Windows
+Node Name: DESKTOP-42T94KM
+Release: 10
+Version: 10.0.18362
+Machine: AMD64
+Processor: Intel64 Family 6 Model 94 Stepping 3, GenuineIntel
+Boot Time: 2021/1/9 12:31:39
+---------CPU Info---------
+Number of physical cores: 4
+Total number of cores: 4
+Maximum frequency: 3504.0
+Minimum frequency: 0.0
+Current frequency: 3504.0
+
+--------- 2021/1/10 19:36:28 ---------
+
+####CPU####
+Core 0: 14.1%
+Core 1: 18.8%
+Core 2: 21.9%
+Core 3: 21.9%
+Total core percentage start: 61.8%
+
+####MEMORY####
+Total memory: 23.96GB
+Available memory: 10.97GB
+Used memory: 12.99GB
+Percentage used memory start:54.2
+####SWAP MEMORY####
+Total swap memory: 27.46GB
+Available swap memory: 12.51GB
+Used swap memory: 14.96GB
+Percentage used swap memory: 54.5
+
+####DISK SPACE####
+Partitions and Usage:
+=== Device: C:\ ===
+  Mountpoint: C:\
+  File system type: NTFS
+  Total Size: 292.34GB
+  Used: 250.72GB
+  Free: 41.62GB
+  Percentage: 85.8%
+=== Device: D:\ ===
+  Mountpoint: D:\
+  File system type: NTFS
+  Total Size: 390.62GB
+  Used: 351.79GB
+  Free: 38.83GB
+  Percentage: 90.1%
+=== Device: E:\ ===
+  Mountpoint: E:\
+  File system type: NTFS
+  Total Size: 247.92GB
+  Used: 199.38GB
+  Free: 48.54GB
+  Percentage: 80.4%
+Total read: 42.83GB
+Total write: 24.20GB
+
+####NETWORK USAGE####
+Total bytes sent: 683.83MB
+Total bytes received: 13.84GB
+
+--------- 2021/1/10 19:37:16 ---------
+
+####CPU####
+Core 0: 13.8%
+Core 1: 20.3%
+Core 2: 14.1%
+Core 3: 14.1%
+Total core percentage start: 39.4%
+
+####MEMORY####
+Total memory: 23.96GB
+Available memory: 10.93GB
+Used memory: 13.03GB
+Percentage used memory start:54.4
+####SWAP MEMORY####
+Total swap memory: 27.46GB
+Available swap memory: 12.47GB
+Used swap memory: 14.99GB
+Percentage used swap memory: 54.6
+
+####DISK SPACE####
+Partitions and Usage:
+=== Device: C:\ ===
+  Mountpoint: C:\
+  File system type: NTFS
+  Total Size: 292.34GB
+  Used: 250.72GB
+  Free: 41.62GB
+  Percentage: 85.8%
+=== Device: D:\ ===
+  Mountpoint: D:\
+  File system type: NTFS
+  Total Size: 390.62GB
+  Used: 351.79GB
+  Free: 38.83GB
+  Percentage: 90.1%
+=== Device: E:\ ===
+  Mountpoint: E:\
+  File system type: NTFS
+  Total Size: 247.92GB
+  Used: 199.38GB
+  Free: 48.54GB
+  Percentage: 80.4%
+Total read: 42.83GB
+Total write: 24.20GB
+
+####NETWORK USAGE####
+Total bytes sent: 688.84MB
+Total bytes received: 13.84GB
+######################################################################################################
+
+
