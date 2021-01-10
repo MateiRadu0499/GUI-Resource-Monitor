@@ -13,25 +13,25 @@ Maximum frequency: 3504.0
 Minimum frequency: 0.0
 Current frequency: 3504.0
 
---------- 2021/1/10 15:4:49 ---------
+--------- 2021/1/10 17:2:38 ---------
 
 ####CPU####
-Core 0: 23.9%
-Core 1: 1.6%
-Core 2: 15.6%
-Core 3: 3.1%
-Total core percentage start: 30.4%
+Core 0: 15.2%
+Core 1: 14.1%
+Core 2: 26.6%
+Core 3: 14.1%
+Total core percentage start: 56.5%
 
 ####MEMORY####
 Total memory: 23.96GB
-Available memory: 14.71GB
-Used memory: 9.26GB
-Percentage used memory start:38.6
+Available memory: 13.32GB
+Used memory: 10.65GB
+Percentage used memory start:44.4
 ####SWAP MEMORY####
 Total swap memory: 27.46GB
-Available swap memory: 16.92GB
-Used swap memory: 10.54GB
-Percentage used swap memory: 38.4
+Available swap memory: 15.38GB
+Used swap memory: 12.08GB
+Percentage used swap memory: 44.0
 
 ####DISK SPACE####
 Partitions and Usage:
@@ -39,9 +39,9 @@ Partitions and Usage:
   Mountpoint: C:\
   File system type: NTFS
   Total Size: 292.34GB
-  Used: 250.25GB
-  Free: 42.09GB
-  Percentage: 85.6%
+  Used: 250.70GB
+  Free: 41.64GB
+  Percentage: 85.8%
 === Device: D:\ ===
   Mountpoint: D:\
   File system type: NTFS
@@ -56,32 +56,32 @@ Partitions and Usage:
   Used: 199.38GB
   Free: 48.54GB
   Percentage: 80.4%
-Total read: 42.35GB
-Total write: 19.06GB
+Total read: 42.75GB
+Total write: 20.59GB
 
 ####NETWORK USAGE####
-Total bytes sent: 606.90MB
-Total bytes received: 12.31GB
+Total bytes sent: 630.16MB
+Total bytes received: 12.66GB
 
---------- 2021/1/10 15:5:10 ---------
+--------- 2021/1/10 17:2:41 ---------
 
 ####CPU####
-Core 0: 6.2%
-Core 1: 7.8%
-Core 2: 12.5%
-Core 3: 9.4%
-Total core percentage start: 8.3%
+Core 0: 25.0%
+Core 1: 23.4%
+Core 2: 20.3%
+Core 3: 18.8%
+Total core percentage start: 20.9%
 
 ####MEMORY####
 Total memory: 23.96GB
-Available memory: 14.68GB
-Used memory: 9.28GB
-Percentage used memory start:38.7
+Available memory: 13.29GB
+Used memory: 10.67GB
+Percentage used memory start:44.5
 ####SWAP MEMORY####
 Total swap memory: 27.46GB
-Available swap memory: 16.90GB
-Used swap memory: 10.57GB
-Percentage used swap memory: 38.5
+Available swap memory: 15.35GB
+Used swap memory: 12.11GB
+Percentage used swap memory: 44.1
 
 ####DISK SPACE####
 Partitions and Usage:
@@ -89,9 +89,9 @@ Partitions and Usage:
   Mountpoint: C:\
   File system type: NTFS
   Total Size: 292.34GB
-  Used: 250.25GB
-  Free: 42.09GB
-  Percentage: 85.6%
+  Used: 250.70GB
+  Free: 41.64GB
+  Percentage: 85.8%
 === Device: D:\ ===
   Mountpoint: D:\
   File system type: NTFS
@@ -106,12 +106,12 @@ Partitions and Usage:
   Used: 199.38GB
   Free: 48.54GB
   Percentage: 80.4%
-Total read: 42.35GB
-Total write: 19.06GB
+Total read: 42.75GB
+Total write: 20.59GB
 
 ####NETWORK USAGE####
-Total bytes sent: 606.92MB
-Total bytes received: 12.31GB
+Total bytes sent: 630.18MB
+Total bytes received: 12.66GB
 ######################################################################################################
 
 
@@ -130,25 +130,25 @@ Maximum frequency: 3504.0
 Minimum frequency: 0.0
 Current frequency: 3504.0
 
---------- 2021/1/10 16:17:0 ---------
+--------- 2021/1/10 17:18:56 ---------
 
 ####CPU####
-Core 0: 17.6%
-Core 1: 3.1%
-Core 2: 14.1%
-Core 3: 32.8%
-Total core percentage start: 68.1%
+Core 0: 15.4%
+Core 1: 17.2%
+Core 2: 24.6%
+Core 3: 18.8%
+Total core percentage start: 73.7%
 
 ####MEMORY####
 Total memory: 23.96GB
-Available memory: 14.07GB
-Used memory: 9.89GB
-Percentage used memory start:41.3
+Available memory: 13.17GB
+Used memory: 10.80GB
+Percentage used memory start:45.1
 ####SWAP MEMORY####
 Total swap memory: 27.46GB
-Available swap memory: 16.16GB
-Used swap memory: 11.30GB
-Percentage used swap memory: 41.1
+Available swap memory: 15.25GB
+Used swap memory: 12.21GB
+Percentage used swap memory: 44.5
 
 ####DISK SPACE####
 Partitions and Usage:
@@ -156,8 +156,8 @@ Partitions and Usage:
   Mountpoint: C:\
   File system type: NTFS
   Total Size: 292.34GB
-  Used: 250.74GB
-  Free: 41.60GB
+  Used: 250.70GB
+  Free: 41.64GB
   Percentage: 85.8%
 === Device: D:\ ===
   Mountpoint: D:\
@@ -173,32 +173,32 @@ Partitions and Usage:
   Used: 199.38GB
   Free: 48.54GB
   Percentage: 80.4%
-Total read: 42.46GB
-Total write: 19.73GB
+Total read: 42.75GB
+Total write: 21.00GB
 
 ####NETWORK USAGE####
-Total bytes sent: 610.38MB
-Total bytes received: 12.38GB
+Total bytes sent: 635.24MB
+Total bytes received: 12.82GB
 
---------- 2021/1/10 16:17:22 ---------
+--------- 2021/1/10 17:19:22 ---------
 
 ####CPU####
-Core 0: 72.7%
-Core 1: 67.2%
-Core 2: 68.8%
-Core 3: 79.7%
-Total core percentage start: 16.7%
+Core 0: 14.1%
+Core 1: 18.8%
+Core 2: 21.9%
+Core 3: 18.8%
+Total core percentage start: 24.0%
 
 ####MEMORY####
 Total memory: 23.96GB
-Available memory: 14.01GB
-Used memory: 9.95GB
-Percentage used memory start:41.5
+Available memory: 13.14GB
+Used memory: 10.83GB
+Percentage used memory start:45.2
 ####SWAP MEMORY####
 Total swap memory: 27.46GB
-Available swap memory: 16.09GB
-Used swap memory: 11.37GB
-Percentage used swap memory: 41.4
+Available swap memory: 15.21GB
+Used swap memory: 12.25GB
+Percentage used swap memory: 44.6
 
 ####DISK SPACE####
 Partitions and Usage:
@@ -206,8 +206,8 @@ Partitions and Usage:
   Mountpoint: C:\
   File system type: NTFS
   Total Size: 292.34GB
-  Used: 250.74GB
-  Free: 41.60GB
+  Used: 250.70GB
+  Free: 41.64GB
   Percentage: 85.8%
 === Device: D:\ ===
   Mountpoint: D:\
@@ -223,12 +223,12 @@ Partitions and Usage:
   Used: 199.38GB
   Free: 48.54GB
   Percentage: 80.4%
-Total read: 42.46GB
-Total write: 19.73GB
+Total read: 42.75GB
+Total write: 21.00GB
 
 ####NETWORK USAGE####
-Total bytes sent: 610.39MB
-Total bytes received: 12.38GB
+Total bytes sent: 635.27MB
+Total bytes received: 12.82GB
 ######################################################################################################
 
 
@@ -247,25 +247,25 @@ Maximum frequency: 3504.0
 Minimum frequency: 0.0
 Current frequency: 3504.0
 
---------- 2021/1/10 16:22:56 ---------
+--------- 2021/1/10 18:11:46 ---------
 
 ####CPU####
-Core 0: 6.2%
-Core 1: 23.4%
-Core 2: 24.6%
-Core 3: 9.4%
-Total core percentage start: 41.6%
+Core 0: 18.5%
+Core 1: 17.2%
+Core 2: 14.1%
+Core 3: 20.3%
+Total core percentage start: 43.0%
 
 ####MEMORY####
 Total memory: 23.96GB
-Available memory: 13.93GB
-Used memory: 10.03GB
-Percentage used memory start:41.8
+Available memory: 12.24GB
+Used memory: 11.72GB
+Percentage used memory start:48.9
 ####SWAP MEMORY####
 Total swap memory: 27.46GB
-Available swap memory: 16.04GB
-Used swap memory: 11.43GB
-Percentage used swap memory: 41.6
+Available swap memory: 14.21GB
+Used swap memory: 13.26GB
+Percentage used swap memory: 48.3
 
 ####DISK SPACE####
 Partitions and Usage:
@@ -273,8 +273,8 @@ Partitions and Usage:
   Mountpoint: C:\
   File system type: NTFS
   Total Size: 292.34GB
-  Used: 250.74GB
-  Free: 41.60GB
+  Used: 250.71GB
+  Free: 41.62GB
   Percentage: 85.8%
 === Device: D:\ ===
   Mountpoint: D:\
@@ -290,32 +290,32 @@ Partitions and Usage:
   Used: 199.38GB
   Free: 48.54GB
   Percentage: 80.4%
-Total read: 42.58GB
-Total write: 19.85GB
+Total read: 42.77GB
+Total write: 21.91GB
 
 ####NETWORK USAGE####
-Total bytes sent: 610.59MB
-Total bytes received: 12.38GB
+Total bytes sent: 653.65MB
+Total bytes received: 13.11GB
 
---------- 2021/1/10 16:26:14 ---------
+--------- 2021/1/10 18:11:51 ---------
 
 ####CPU####
-Core 0: 0.0%
-Core 1: 12.5%
-Core 2: 10.9%
-Core 3: 25.0%
-Total core percentage start: 22.1%
+Core 0: 13.6%
+Core 1: 20.3%
+Core 2: 14.1%
+Core 3: 12.5%
+Total core percentage start: 24.1%
 
 ####MEMORY####
 Total memory: 23.96GB
-Available memory: 13.78GB
-Used memory: 10.18GB
-Percentage used memory start:42.5
+Available memory: 12.24GB
+Used memory: 11.73GB
+Percentage used memory start:48.9
 ####SWAP MEMORY####
 Total swap memory: 27.46GB
-Available swap memory: 15.84GB
-Used swap memory: 11.62GB
-Percentage used swap memory: 42.3
+Available swap memory: 14.19GB
+Used swap memory: 13.27GB
+Percentage used swap memory: 48.3
 
 ####DISK SPACE####
 Partitions and Usage:
@@ -323,8 +323,8 @@ Partitions and Usage:
   Mountpoint: C:\
   File system type: NTFS
   Total Size: 292.34GB
-  Used: 250.74GB
-  Free: 41.60GB
+  Used: 250.71GB
+  Free: 41.62GB
   Percentage: 85.8%
 === Device: D:\ ===
   Mountpoint: D:\
@@ -340,12 +340,12 @@ Partitions and Usage:
   Used: 199.38GB
   Free: 48.54GB
   Percentage: 80.4%
-Total read: 42.58GB
-Total write: 19.85GB
+Total read: 42.77GB
+Total write: 21.91GB
 
 ####NETWORK USAGE####
-Total bytes sent: 612.77MB
-Total bytes received: 12.39GB
+Total bytes sent: 653.65MB
+Total bytes received: 13.11GB
 ######################################################################################################
 
 
@@ -364,25 +364,25 @@ Maximum frequency: 3504.0
 Minimum frequency: 0.0
 Current frequency: 3504.0
 
---------- 2021/1/10 16:34:48 ---------
+--------- 2021/1/10 18:21:24 ---------
 
 ####CPU####
 Core 0: 19.7%
-Core 1: 30.8%
-Core 2: 28.1%
-Core 3: 27.7%
-Total core percentage start: 64.4%
+Core 1: 15.6%
+Core 2: 10.9%
+Core 3: 10.9%
+Total core percentage start: 52.8%
 
 ####MEMORY####
 Total memory: 23.96GB
-Available memory: 13.80GB
-Used memory: 10.16GB
-Percentage used memory start:42.4
+Available memory: 12.16GB
+Used memory: 11.80GB
+Percentage used memory start:49.2
 ####SWAP MEMORY####
 Total swap memory: 27.46GB
-Available swap memory: 15.90GB
-Used swap memory: 11.57GB
-Percentage used swap memory: 42.1
+Available swap memory: 14.04GB
+Used swap memory: 13.42GB
+Percentage used swap memory: 48.9
 
 ####DISK SPACE####
 Partitions and Usage:
@@ -390,8 +390,8 @@ Partitions and Usage:
   Mountpoint: C:\
   File system type: NTFS
   Total Size: 292.34GB
-  Used: 250.71GB
-  Free: 41.63GB
+  Used: 250.72GB
+  Free: 41.62GB
   Percentage: 85.8%
 === Device: D:\ ===
   Mountpoint: D:\
@@ -407,32 +407,32 @@ Partitions and Usage:
   Used: 199.38GB
   Free: 48.54GB
   Percentage: 80.4%
-Total read: 42.60GB
-Total write: 20.01GB
+Total read: 42.78GB
+Total write: 22.16GB
 
 ####NETWORK USAGE####
-Total bytes sent: 616.82MB
-Total bytes received: 12.42GB
+Total bytes sent: 655.40MB
+Total bytes received: 13.19GB
 
---------- 2021/1/10 16:35:52 ---------
+--------- 2021/1/10 18:21:32 ---------
 
 ####CPU####
-Core 0: 45.5%
-Core 1: 40.6%
-Core 2: 53.1%
-Core 3: 50.8%
-Total core percentage start: 30.1%
+Core 0: 16.2%
+Core 1: 14.1%
+Core 2: 15.6%
+Core 3: 14.1%
+Total core percentage start: 17.5%
 
 ####MEMORY####
 Total memory: 23.96GB
-Available memory: 13.58GB
-Used memory: 10.38GB
-Percentage used memory start:43.3
+Available memory: 12.14GB
+Used memory: 11.82GB
+Percentage used memory start:49.3
 ####SWAP MEMORY####
 Total swap memory: 27.46GB
-Available swap memory: 15.50GB
-Used swap memory: 11.97GB
-Percentage used swap memory: 43.6
+Available swap memory: 14.01GB
+Used swap memory: 13.46GB
+Percentage used swap memory: 49.0
 
 ####DISK SPACE####
 Partitions and Usage:
@@ -440,8 +440,8 @@ Partitions and Usage:
   Mountpoint: C:\
   File system type: NTFS
   Total Size: 292.34GB
-  Used: 250.71GB
-  Free: 41.63GB
+  Used: 250.72GB
+  Free: 41.62GB
   Percentage: 85.8%
 === Device: D:\ ===
   Mountpoint: D:\
@@ -457,12 +457,12 @@ Partitions and Usage:
   Used: 199.38GB
   Free: 48.54GB
   Percentage: 80.4%
-Total read: 42.60GB
-Total write: 20.01GB
+Total read: 42.78GB
+Total write: 22.16GB
 
 ####NETWORK USAGE####
-Total bytes sent: 619.43MB
-Total bytes received: 12.43GB
+Total bytes sent: 655.40MB
+Total bytes received: 13.19GB
 ######################################################################################################
 
 
@@ -481,25 +481,25 @@ Maximum frequency: 3504.0
 Minimum frequency: 0.0
 Current frequency: 3504.0
 
---------- 2021/1/10 16:51:1 ---------
+--------- 2021/1/10 18:57:18 ---------
 
 ####CPU####
-Core 0: 10.8%
-Core 1: 21.9%
-Core 2: 12.5%
-Core 3: 7.8%
-Total core percentage start: 37.5%
+Core 0: 29.7%
+Core 1: 32.8%
+Core 2: 35.9%
+Core 3: 34.4%
+Total core percentage start: 50.5%
 
 ####MEMORY####
 Total memory: 23.96GB
-Available memory: 13.48GB
-Used memory: 10.48GB
-Percentage used memory start:43.7
+Available memory: 11.72GB
+Used memory: 12.25GB
+Percentage used memory start:51.1
 ####SWAP MEMORY####
 Total swap memory: 27.46GB
-Available swap memory: 15.58GB
-Used swap memory: 11.89GB
-Percentage used swap memory: 43.3
+Available swap memory: 13.63GB
+Used swap memory: 13.83GB
+Percentage used swap memory: 50.4
 
 ####DISK SPACE####
 Partitions and Usage:
@@ -524,32 +524,32 @@ Partitions and Usage:
   Used: 199.38GB
   Free: 48.54GB
   Percentage: 80.4%
-Total read: 42.64GB
-Total write: 20.36GB
+Total read: 42.80GB
+Total write: 23.00GB
 
 ####NETWORK USAGE####
-Total bytes sent: 626.59MB
-Total bytes received: 12.58GB
+Total bytes sent: 662.04MB
+Total bytes received: 13.52GB
 
---------- 2021/1/10 16:51:58 ---------
+--------- 2021/1/10 18:57:33 ---------
 
 ####CPU####
-Core 0: 7.8%
-Core 1: 25.0%
-Core 2: 15.6%
-Core 3: 12.5%
-Total core percentage start: 21.1%
+Core 0: 36.6%
+Core 1: 27.7%
+Core 2: 26.6%
+Core 3: 22.2%
+Total core percentage start: 35.3%
 
 ####MEMORY####
 Total memory: 23.96GB
-Available memory: 13.47GB
-Used memory: 10.50GB
-Percentage used memory start:43.8
+Available memory: 11.67GB
+Used memory: 12.29GB
+Percentage used memory start:51.3
 ####SWAP MEMORY####
 Total swap memory: 27.46GB
-Available swap memory: 15.55GB
-Used swap memory: 11.91GB
-Percentage used swap memory: 43.4
+Available swap memory: 13.60GB
+Used swap memory: 13.86GB
+Percentage used swap memory: 50.5
 
 ####DISK SPACE####
 Partitions and Usage:
@@ -574,12 +574,12 @@ Partitions and Usage:
   Used: 199.38GB
   Free: 48.54GB
   Percentage: 80.4%
-Total read: 42.64GB
-Total write: 20.36GB
+Total read: 42.80GB
+Total write: 23.00GB
 
 ####NETWORK USAGE####
-Total bytes sent: 626.76MB
-Total bytes received: 12.58GB
+Total bytes sent: 662.13MB
+Total bytes received: 13.53GB
 ######################################################################################################
 
 

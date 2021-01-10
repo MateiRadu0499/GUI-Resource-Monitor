@@ -1,20 +1,23 @@
 import platform
 import psutil
 import datetime
-import time
+import sys
+import os
 from datetime import date,datetime
 import matplotlib.pyplot as plt
 import tkinter as tk
 from tkinter import ttk
-
+from PIL import ImageTk, Image
 import matplotlib
+from PIL.ImageTk import PhotoImage
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
 from matplotlib.figure import Figure
 import matplotlib.animation as animation
 from matplotlib import style
 matplotlib.use("TkAgg")
 
-LARGE_FONT=("Verdana", 12)
+LARGE_FONT = ("Verdana", 12)
+NORMAL_FONT = ("Verdana", 10)
 style.use("dark_background")
 
 
@@ -77,6 +80,8 @@ def cpu_info():
     # print("CPU Usage Per Core:")
     cores = {}
     i = TURN + 1
+    # if i % 120 == 0:
+    #     clean_cache()
     totalCpup= psutil.cpu_percent()
     f.write(str(i)+","+str(totalCpup)+"\n")
     if TURN == 0:
@@ -163,10 +168,6 @@ netPlotS = f.add_subplot(gs[1:, -1])
 netPlotR = f.add_subplot(gs[-1, -2])
 
 
-
-
-
-
 def animate(i):
     increment()
     cpu_info()
@@ -245,49 +246,10 @@ def animate(i):
     netPlotR.set_ylabel('Size received(Mb)')
 
 
-class GuiResourceMonitor(tk.Tk):
-    def __init__(self):
-
-        tk.Tk.__init__(self)
-        container = tk.Frame(self)
-
-        container.pack(side="top", fill="both", expand=True)
-
-        container.grid_rowconfigure(0, weight=1)
-        container.grid_columnconfigure(0, weight=1)
-
-        self.frames = {}
-
-        for F in (StartPage, PageOne):
-
-            frame = F(container, self)
-
-            self.frames[F] = frame
-
-            frame.grid(row=0, column=0, sticky="nsew")
-
-        self.show_frame(StartPage)
-
-    def show_frame(self, cont):
-        frame = self.frames[cont]
-        frame.tkraise()
-
-
-class StartPage(tk.Frame):
-    def __init__(self, parent, controller):
-        tk.Frame.__init__(self, parent)
-        label = ttk.Label(self, text="Resource Monitor", font=LARGE_FONT)
-        label.pack(pady=10, padx=10)
-
-        button1 = ttk.Button(self, text="Start", command=lambda: controller.show_frame(PageOne))
-        button1.pack()
-
-
-start = datetime.now()
-
 
 def history(controller):
     end = datetime.now()
+    ani.event_source.stop()
     # try to open the history file if not create it
     f = open("history.txt","a")
     # -----------------System-----------------
@@ -479,14 +441,148 @@ def history(controller):
     controller.show_frame(StartPage)
 
 
-class PageOne(tk.Frame):
-    def __init__(self,parent,controller):
-        tk.Frame.__init__(self,parent)
-        label = ttk.Label(self, text="Resource Page", font=LARGE_FONT)
+class GuiResourceMonitor(tk.Tk):
+    def __init__(self):
+
+        tk.Tk.__init__(self)
+        container = tk.Frame(self)
+
+        container.pack(side="top", fill="both", expand=True)
+
+        container.grid_rowconfigure(0, weight=1)
+        container.grid_columnconfigure(0, weight=1)
+
+        self.frames = {}
+
+        for F in (StartPage, PageOne):
+
+            frame = F(container, self)
+
+            self.frames[F] = frame
+
+            frame.grid(row=0, column=0, sticky="nsew")
+
+        self.show_frame(StartPage)
+
+    def show_frame(self, cont):
+        frame = self.frames[cont]
+        frame.tkraise()
+
+
+def start_app(controller):
+    controller.show_frame(PageOne)
+
+
+class StartPage(tk.Frame):
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+        label = ttk.Label(self, text="Resource Monitor", font=LARGE_FONT)
         label.pack(pady=10, padx=10)
 
-        button2 = ttk.Button(self, text="Exit", command=lambda: history(controller))
+        button1 = ttk.Button(self, text="See the live data", command=lambda: start_app(controller))
+        button1.pack()
+        # -----------------System-----------------
+        uname = platform.uname()
+        bootTimeTstmp = psutil.boot_time()
+        bt = datetime.fromtimestamp(bootTimeTstmp)
+        # ----------------- CPU -----------------
+        cpuCountP = psutil.cpu_count(logical=False)  # Physical number of cores
+        cpuCountT = psutil.cpu_count(logical=True)  # Total number of cores
+        # CPU frequencies
+        cpufreq = psutil.cpu_freq()
+        freqMax = cpufreq.max
+        freqMin = cpufreq.min
+        freqCurr = cpufreq.current
+
+        label1 = ttk.Label(self, text="---------System Info---------\n"
+                                     + "System: " + str(uname.system)+"\n"
+                                     + "Node Name: "+str(uname.node)+"\n"
+                                     + "Release: "+str(uname.release)+"\n"
+                                     + "Version: "+str(uname.version)+"\n"
+                                     + "Machine: "+str(uname.machine)+"\n"
+                                     + "Processor: "+str(uname.processor)+"\n"
+                                     + "---------CPU Info---------\n"
+                                     + "Number of physical cores:"+str(cpuCountP)+"\n"
+                                     + "Total number of cores:"+str(cpuCountT)+"\n"
+                                     + "Maximum frequency:"+str(freqMax)+"\n"
+                                     + "Minimum frequency:"+str(freqMin)+"\n"
+                                     + "Current frequency:"+str(freqCurr)+"\n", font=LARGE_FONT)
+        label1.pack()
+
+        partitionsName = []
+        partitionsSize = []
+        totalSizeGB = 0
+        partitions = psutil.disk_partitions()
+        for partition in partitions:
+            partitionDevice = partition.device
+            partitionsName.append(partitionDevice)
+            try:
+                partition_usage = psutil.disk_usage(partition.mountpoint)
+            except PermissionError:
+                # this can be catched due to the disk that
+                # isn't ready
+                continue
+            sizeDiskT = get_size(partition_usage.total)
+            sizeDiskU = get_size(partition_usage.used)
+            partitionsSize.append(sizeDiskU)
+            totalSizeGB += float(partition_usage.total)
+
+        totalSize=float(get_size(totalSizeGB)[:len(get_size(totalSizeGB))-2])
+        partitionsS= []
+        used = 0
+        for partition in partitionsSize:
+            partitionsS.append(float(partition[:len(partition)-2]))
+        for j in range(0, len(partitionsS)):
+            used += partitionsS[j]
+        partitionsName.append("Free Space")
+        partitionsS.append(totalSize-used)
+        explode = (0, 0, 0, 0.1)
+        fig1, ax1 = plt.subplots()
+        colors = ['#ff9999', '#66b3ff', '#99ff99', '#ffcc99']
+        patches, texts, autotexts = ax1.pie(partitionsS, explode=explode, labels=partitionsName, colors=colors, autopct='%1.1f%%',
+                shadow=False, startangle=90)
+        for text in texts:
+            text.set_color('grey')
+        for autotext in autotexts:
+            autotext.set_color('grey')
+        ax1.axis('equal')
+        plt.tight_layout()
+        fig1.savefig('pie_chart.jpg', dpi=300, transparent=True)
+
+        # load = Image.open("pie_chart.jpg")
+        # render = ImageTk.PhotoImage(load)
+        # img = tk.Label(self, image=render)
+        # img.image = render
+        # img.place(x=0, y=0)
+
+
+start = datetime.now()
+
+
+def stop_animation():
+    """
+    Stops the current plot animation that is running
+    :return:
+    """
+    ani.event_source.stop()
+
+def restart_program():
+    """Restarts the current program.
+    """
+    python = sys.executable
+    os.execl(python, python, * sys.argv)
+
+class PageOne(tk.Frame):
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self,parent)
+        label = ttk.Label(self, text="Live data Resource Page", font=LARGE_FONT)
+        label.pack(pady=10, padx=10)
+
+        button2 = ttk.Button(self, text="Save data & Exit", command=lambda: history(controller))
         button2.pack()
+
+        button3 = ttk.Button(self, text="Stop running", command=lambda: stop_animation())
+        button3.pack()
 
         canvas = FigureCanvasTkAgg(f, self)
         canvas.draw()
