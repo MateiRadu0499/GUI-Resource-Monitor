@@ -78,6 +78,7 @@ def clean_cache():
     fileMem = open("SampleDataMemory.txt", "w")
     fileSwap = open("SampleDataSwap.txt", "w")
     fileNet = open("SampleDataNetwork.txt", "w")
+    fileDisk = open("SampleDataDisk.txt", "w")
 
 
 cores_init={}
@@ -153,6 +154,8 @@ def disk_info():
         of every partition in the system
         :return:
     """
+    fileDisk = open("SampleDataDisk.txt", "a")
+    i=TURN+1
     # get all disk partitions
     partitions = psutil.disk_partitions()
     for partition in partitions:
@@ -169,6 +172,7 @@ def disk_info():
         sizeDiskU = get_size(partition_usage.used)
         sizeDiskF = get_size(partition_usage.free)
         sizeDiskP = partition_usage.percent
+        fileDisk.write(str(i) + "," + str(partitionDevice) + str(sizeDiskU) + "," + str(partitionDevice) + str(sizeDiskF) + "," + str(sizeDiskP) + "%" + "\n")
 
     # get IO statistics sTURNe boot
     disk_io = psutil.disk_io_counters()
@@ -192,6 +196,7 @@ def network_info():
     totalBytesS = get_size(net_io.bytes_sent)
     totalBytesR = get_size(net_io.bytes_recv)
     fileMem.write(str(i)+","+str(totalBytesS) + "," + str(totalBytesR) + "\n")
+
 
 clean_cache()
 system_info()
@@ -227,6 +232,7 @@ def animate(i):
     cpu_info()
     memory_info()
     network_info()
+    disk_info()
 
     pullDataCPU = open("SampleDataCPU.txt", "r").read()
     dataListCPU = pullDataCPU.split('\n')
@@ -301,6 +307,49 @@ def animate(i):
     netPlotR.set_ylabel('Size received(Mb)')
 
 
+def save_chart():
+    partitionsName = []
+    partitionsSize = []
+    totalSizeGB = 0
+    partitions = psutil.disk_partitions()
+    for partition in partitions:
+        partitionDevice = partition.device
+        partitionsName.append(partitionDevice)
+        try:
+            partition_usage = psutil.disk_usage(partition.mountpoint)
+        except PermissionError:
+            # this can be catched due to the disk that
+            # isn't ready
+            continue
+        sizeDiskT = get_size(partition_usage.total)
+        sizeDiskU = get_size(partition_usage.used)
+        partitionsSize.append(sizeDiskU)
+        totalSizeGB += float(partition_usage.total)
+
+    totalSize = float(get_size(totalSizeGB)[:len(get_size(totalSizeGB)) - 2])
+    partitionsS = []
+    used = 0
+    for partition in partitionsSize:
+        partitionsS.append(float(partition[:len(partition) - 2]))
+    for j in range(0, len(partitionsS)):
+        used += partitionsS[j]
+    partitionsName.append("Free Space")
+    partitionsS.append(totalSize - used)
+    explode = (0, 0, 0, 0.1)
+    fig1, ax1 = plt.subplots()
+    colors = ['#ff9999', '#66b3ff', '#99ff99', '#ffcc99']
+    patches, texts, autotexts = ax1.pie(partitionsS, explode=explode, labels=partitionsName, colors=colors,
+                                        autopct='%1.1f%%',
+                                        shadow=False, startangle=90)
+    for text in texts:
+        text.set_color('grey')
+    for autotext in autotexts:
+        autotext.set_color('grey')
+    ax1.axis('equal')
+    plt.tight_layout()
+    fig1.savefig('pie_chart.jpg', dpi=300, transparent=True)
+
+
 def history(controller):
     """
     Writes a file(or if it exists in the file)
@@ -311,6 +360,7 @@ def history(controller):
     """
     end = datetime.now()
     ani.event_source.stop()
+    save_chart()
     # try to open the history file if not create it
     f = open("history.txt","a")
     # -----------------System-----------------
@@ -521,6 +571,9 @@ def restart_program():
 
 
 class GuiResourceMonitor(tk.Tk):
+    """
+    Main class used for configuring tkinter and its pages
+    """
     def __init__(self):
 
         tk.Tk.__init__(self)
@@ -549,6 +602,9 @@ class GuiResourceMonitor(tk.Tk):
 
 
 class StartPage(tk.Frame):
+    """
+    First page with the static info about the system
+    """
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
         label = ttk.Label(self, text="Resource Monitor", font=LARGE_FONT)
@@ -584,46 +640,6 @@ class StartPage(tk.Frame):
                                      + "Current frequency:"+str(freqCurr)+"\n", font=LARGE_FONT)
         label1.pack()
 
-        partitionsName = []
-        partitionsSize = []
-        totalSizeGB = 0
-        partitions = psutil.disk_partitions()
-        for partition in partitions:
-            partitionDevice = partition.device
-            partitionsName.append(partitionDevice)
-            try:
-                partition_usage = psutil.disk_usage(partition.mountpoint)
-            except PermissionError:
-                # this can be catched due to the disk that
-                # isn't ready
-                continue
-            sizeDiskT = get_size(partition_usage.total)
-            sizeDiskU = get_size(partition_usage.used)
-            partitionsSize.append(sizeDiskU)
-            totalSizeGB += float(partition_usage.total)
-
-        totalSize=float(get_size(totalSizeGB)[:len(get_size(totalSizeGB))-2])
-        partitionsS= []
-        used = 0
-        for partition in partitionsSize:
-            partitionsS.append(float(partition[:len(partition)-2]))
-        for j in range(0, len(partitionsS)):
-            used += partitionsS[j]
-        partitionsName.append("Free Space")
-        partitionsS.append(totalSize-used)
-        explode = (0, 0, 0, 0.1)
-        fig1, ax1 = plt.subplots()
-        colors = ['#ff9999', '#66b3ff', '#99ff99', '#ffcc99']
-        patches, texts, autotexts = ax1.pie(partitionsS, explode=explode, labels=partitionsName, colors=colors, autopct='%1.1f%%',
-                shadow=False, startangle=90)
-        for text in texts:
-            text.set_color('grey')
-        for autotext in autotexts:
-            autotext.set_color('grey')
-        ax1.axis('equal')
-        plt.tight_layout()
-        fig1.savefig('pie_chart.jpg', dpi=300, transparent=True)
-
         # load = Image.open("pie_chart.jpg")
         # render = ImageTk.PhotoImage(load)
         # img = tk.Label(self, image=render)
@@ -632,6 +648,9 @@ class StartPage(tk.Frame):
 
 
 class PageOne(tk.Frame):
+    """
+    Second page with the live plots
+    """
     def __init__(self, parent, controller):
         tk.Frame.__init__(self,parent)
         label = ttk.Label(self, text="Live data Resource Page", font=LARGE_FONT)
